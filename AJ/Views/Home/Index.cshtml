@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <ul id="u1">
+    </ul>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <td>姓名</td>
+                <td>年資</td>
+                <td>薪水</td>
+            </tr>
+        </thead>
+        <tbody id="tb1">
+        </tbody>
+    </table>
+</div>
+@{
+    foreach(var a in Model)
+    {
+        <li>@a.Name</li>
+    }
+}
+<script>
+    function ps(a) {
+        const p = new Promise((o, x) => {
+            setTimeout(() => {
+                o(a)
+            }, 1000)
+        })
+        return p
+    }
+    async function b() {
+        var v = await ps("A")
+        console.log(v)
+        v = await ps("B")
+        console.log(v)
+    }
+    b()
+    ///////////////////////////////////
+    ps("1").then((a) => {
+        console.log(a)
+        return ps("2")
+    })
+        .then((a) => {
+            console.log(a)
+            return ps("3")
+        })
+        .then((a) => {
+            console.log(a)
+        })
+    var emp = {
+        "employees": [
+            { "name": "Tom", "workYears": 3, "salary": 35000 },
+            { "name": "Jack", "workYears": 5, "salary": 40000 },
+            { "name": "Mary", "workYears": 7, "salary": 45000 }
+        ]
+    };
+    for (var a = 0; a < emp.employees.length; a++) {
+        console.log(emp.employees[a].name + "    " + emp.employees[a].workYears + "    " + emp.employees[a].salary)
+    }
+    var emps = emp.employees.map(emp => `<li>${emp.name}</li>`)
+    u1.innerHTML = emps.join("");
+    var emps2 = emp.employees.map
+        (emp => {
+            var { name, workYears, salary } = emp
+            return (
+                `<tr>
+                                <td>${name}</td>
+                                    <td>${workYears}</td>
+                                    <td>${salary}</td>
+                                </tr>`
+            )
+        })
+    tb1.innerHTML = emps2.join("");
+</script>

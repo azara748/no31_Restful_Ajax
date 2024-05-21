@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "Index2";
+}
+
+<input type="button" id="b1" onclick="cb1()" value="!!!"/>
+<div id="d1"></div>
+<script>
+    function cb1() 
+    {
+        fetch(`@Url.Content("~/API/Index2")`).then(x => { console.log(x); return x.text() })
+        .then(x => { console.log(x); d1.innerHTML = "<h1>" + x + "</h1>" })
+    }
+    //https://localhost:7045/Home/Index2
+</script>
