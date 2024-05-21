@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Index3";
+}
+
+<h1>Index3</h1>
+<select id="sele1">
+    
+</select>
+<script>
+    async function go() {
+        var a = await fetch(`@Url.Content("~/API/Index")`)
+        var b = await a.json()
+        var c = b.map((x) => { return `<option value="${x}">${x}</option>` })
+        sele1.innerHTML=c
+    }
+    go();
+
+</script>

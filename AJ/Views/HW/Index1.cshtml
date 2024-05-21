@@ -7,23 +7,22 @@
     <script>
         var s = "";
         for (var a in spots.CommonFormat.Section) {
-            var img = "";          
-            if (spots.CommonFormat.Section[a].file.img.length > 0) 
-            img = spots.CommonFormat.Section[a].file.img[0].text
+            var img = "";
+            if (spots.CommonFormat.Section[a].file.img.length > 0)
+                img = spots.CommonFormat.Section[a].file.img[0].text
             else
-            img = spots.CommonFormat.Section[a].file.img.text
-            //object-fit: contain;
-
-            s += `<div class="card-group" style="float:left;width:300px;height:450px;">         
-                            <div class="card">
-                                                <img src="${img}" class="card-img-top" alt="..." style="height:225px;">
-                <div class="card-body">
-                      <h5 class="card-title">${spots.CommonFormat.Section[a].stitle}</h5>
-                                  <p class="card-text">${spots.CommonFormat.Section[a].xbody.substring(0,100)}</p>
-                  <p class="card-text"><small class="text-body-secondary"></small></p>
-                </div>
-                </div>
-              </div>`;
+                img = spots.CommonFormat.Section[a].file.img.text
+            s += `<div class="card" style="float:left;width:300px;height:600px;">
+                                                <img src="${img}" class="card-img-top" alt = "..." style="height:225px;">
+                                    <div class="card-body" >
+                                                <h5 class="card-title" >${spots.CommonFormat.Section[a].stitle}</h5>
+                                                    <p class="card-text" >${spots.CommonFormat.Section[a].xbody.substring(0, 100)}</p>
+                                                </div>
+                                                <div class="card-footer">
+                                                            <small class="text-body-secondary">${spots.CommonFormat.Section[a].address}</small>
+                                                        </div>
+                                                        </div>
+                                                        </div>`
         }
         d1.innerHTML += s;
     </script>

@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewData["Title"] = "Index4";
+}
+
+<h1 id="hh1"></h1>
+<script>
+async function go() {
+        var a = await fetch(`@Url.Content("~/API/Index4")/5?name=www&sai=8000`)
+        var b = await a.text()
+       hh1.innerHTML=b
+    }
+    go();
+</script>

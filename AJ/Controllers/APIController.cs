@@ -18,6 +18,7 @@ namespace AJ.Controllers
         }
         public IActionResult Index2()
         {
+            Thread.Sleep(3000);
             return Content("世界", "text/plain", Encoding.UTF8);
             //return Content("<h1>世界</h1>", "text/html", Encoding.UTF8);
         }
@@ -34,6 +35,11 @@ namespace AJ.Controllers
                 }
             }
             return NotFound();
+        }
+        public IActionResult Index4(int id,string name="xxx",int sai=5)
+        {
+            return Content("id:"+id+"名字"+name+"  "+sai+"歲", "text/plain", Encoding.UTF8);
+            //https://localhost:7045/API/Index4/1?name=aaa&sai=100
         }
     }
 }

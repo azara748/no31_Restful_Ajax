@@ -1,15 +1,40 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index2";
 }
 
 <input type="button" id="b1" onclick="cb1()" value="!!!"/>
+<input type="button" id="b2" onclick="cb2()" value="xxx" />
+
+<img src="~/img/spinning arrow.gif" style="display:none" id="img1"/>
 <div id="d1"></div>
 <script>
-    function cb1() 
-    {
-        fetch(`@Url.Content("~/API/Index2")`).then(x => { console.log(x); return x.text() })
-        .then(x => { console.log(x); d1.innerHTML = "<h1>" + x + "</h1>" })
+    abortController = new AbortController();
+    function cb2() {
+        abortController.abort();
+    }
+    async function cb1() {        
+        try {
+
+            const signal = abortController.signal;
+            setTimeout(() => { abortController.abort(); }, 1500)
+         
+            img1.style.display = "inline"
+            b1.setAttribute("disabled", "");
+            var a = await fetch(`@Url.Content("~/API/Index2")`, { signal })
+            if (!a.ok)
+                throw new Error(`${response.status}`);
+            var b = await a.text();
+            d1.innerHTML = "<h1>" + b + "</h1>"
+        }
+        catch (error) {
+            d1.innerHTML = `<h2>${error.message}</h2>`
+        }
+            finally{
+            img1.style.display = "none"
+            b1.removeAttribute("disabled");
+        }
+        // fetch(`@Url.Content("~/API/Index2")`).then(x => { console.log(x); return x.text() })
+        // .then(x => { console.log(x); d1.innerHTML = "<h1>" + x + "</h1>" })
     }
     //https://localhost:7045/Home/Index2
 </script>
