@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Index5";
+}
+
+<h1>Index5</h1>
+<script>
+    var Data = {
+        "categoryId": 0,
+        "keyword": "北投",
+        "page": 1,
+        "pageSize": 9,
+        "sortType": "asc",
+        "sortBy": ""
+    }
+    async function go() {
+        var a = await fetch(`@Url.Content("~/API/Index5")`, {
+            method: 'POST',
+            body: JSON.stringify(Data),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        var b = await a.json()
+        console.log(b)
+    }
+    go()
+</script>

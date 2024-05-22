@@ -9,14 +9,14 @@ namespace AJ.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly MyDbContext _context;
-        public HomeController(ILogger<HomeController> logger,  MyDbContext context)
+        public HomeController(ILogger<HomeController> logger, MyDbContext context)
         {
             _logger = logger;
             _context = context;
         }
 
         public IActionResult Index()
-        {     
+        {
             var a = _context.Members;
             return View(a);
         }
@@ -29,6 +29,10 @@ namespace AJ.Controllers
             return View();
         }
         public IActionResult Index4()
+        {
+            return View();
+        }
+        public IActionResult Index5()
         {
             return View();
         }

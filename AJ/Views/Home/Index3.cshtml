@@ -4,16 +4,34 @@
 }
 
 <h1>Index3</h1>
-<select id="sele1">
-    
-</select>
+<select id="sele1" onchange="go1()"></select>
+<select id="sele2" onchange="go2()"></select>
+<select id="sele3" onchange="go3()"></select>
+<label id="lab1"></label>
 <script>
     async function go() {
         var a = await fetch(`@Url.Content("~/API/Index")`)
         var b = await a.json()
         var c = b.map((x) => { return `<option value="${x}">${x}</option>` })
-        sele1.innerHTML=c
+        sele1.innerHTML = c;
+        go1();      
+    }
+    async function go1() {
+        var d = await fetch(`@Url.Content("~/API/Index11")/${sele1.value}`)
+        var e = await d.json("")
+        var f = e.map((x) =>`<option value="${x}">${x}</option>` )
+        sele2.innerHTML = f
+        go2();
+    }
+    async function go2() {
+        var g = await fetch(`@Url.Content("~/API/Index12")/${sele2.value}`)
+        var h = await g.json()
+        var i = h.map((x) => `<option value="${x}">${x}</option>` )
+        sele3.innerHTML = i
+        go3()
+    }
+    async function go3() {
+        lab1.innerHTML = sele1.value + sele2.value + sele3.value
     }
     go();
-
 </script>

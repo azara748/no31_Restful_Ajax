@@ -1,14 +1,61 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index4";
 }
 
 <h1 id="hh1"></h1>
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <h1>Register</h1>
+        <form action="~/API/Index4" id="form1">
+            <div class="mb-3">
+                <label for="InputName" class="form-label">姓名</label>
+                <input type="text" class="form-control" id="InputName" name="Name">
+
+            </div>
+            <div class="mb-3">
+                <label for="InputEmail" class="form-label">電子郵件</label>
+                <input type="email" class="form-control" id="InputEmail" name="Email">
+            </div>
+            <div class="mb-3">
+                <label for="InputAge" class="form-label">年紀</label>
+                <input type="number" class="form-control" id="InputAge" name="Age">
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Default file input example</label>
+                <input class="form-control" type="file" id="formFile" name="fil">
+            </div>
+            <button type="submit" class="btn btn-primary" id="bu1">送出</button>
+        </form>
+    </div>
+    <div class="col-3" id="div1"></div>
+</div>
 <script>
-async function go() {
-        var a = await fetch(`@Url.Content("~/API/Index4")/5?name=www&sai=8000`)
+    bu1.addEventListener('click', async (event) => { event.preventDefault(); })
+
+    async function go() {
+        var c = new FormData(form1);
+        //c.append("pas","123")
+        var a = await fetch(`@Url.Content("~/API/Index4")`, { method: "POST", body: c })
         var b = await a.text()
-       hh1.innerHTML=b
+        div1.innerHTML = b
+
+
+
+        // var a = await fetch(`@Url.Content("~/API/Index4")?Name=${InputName.value}&&Email=${InputEmail.value}&&Age=${InputAge.value}`)
+        // var b = await a.text()
+        // div1.innerHTML = b
     }
-    go();
+    bu1.addEventListener('click', go)
+
+
+
+
+
+    // async function go() {
+    //         var a = await fetch(`@Url.Content("~/API/Index4")/5?name=www&sai=8000`)
+    //         var b = await a.text()
+    //        hh1.innerHTML=b
+    //     }
+    //     go();
 </script>

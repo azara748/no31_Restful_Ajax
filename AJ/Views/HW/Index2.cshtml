@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Index2";
+}
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <h1>Register</h1>
+        <form action="~/API/Index4" id="form1">
+            <div class="mb-3">
+                <label for="InputName" class="form-label">姓名</label>
+                <input type="text" class="form-control" id="InputName" name="Name" onchange="txtch1()">  
+                <div id="div1"></div>
+            </div>         
+            <div class="mb-3">
+                <label for="InputEmail" class="form-label">電子郵件</label>
+                <input type="email" class="form-control" id="InputEmail" name="Email">
+            </div>
+            <div class="mb-3">
+                <label for="InputEmail" class="form-label">密碼</label>
+                <input type="email" class="form-control" id="InputPassword" name="Password" onchange="paw()">
+            </div>
+            <div class="mb-3">
+                <label for="InputEmail" class="form-label">密碼確認</label>
+                <input type="email" class="form-control" id="InputPassword2" name="Password2" onchange="paw()">
+            </div>
+            <div class="mb-3">
+                <label for="InputAge" class="form-label">年紀</label>
+                <input type="number" class="form-control" id="InputAge" name="Age">
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Default file input example</label>
+                <input class="form-control" type="file" id="formFile" name="fil">
+            </div>
+            <button type="button" class="btn btn-primary" id="bu1">送出</button>
+        </form>
+    </div>
+    <div class="col-3" id="div1"></div>
+</div>
+<script>
+    async function txtch1() {
+        var a = await fetch(`@Url.Content("~/HW/Index2API")/${InputName.value}`)
+        var b = await a.text()
+        if (b == "o") {
+            div1.innerHTML = `<label id="lab1">OK</label>`;
+            InputName.style.borderColor = "green";
+            lab1.style.color = "green";
+        }
+        else {
+            div1.innerHTML = `<label id="lab1">NO</label>`;
+            InputName.style.borderColor = "red";
+            lab1.style.color = "red";
+        }
+    }
+     function paw() {      
+        if (InputPassword.value == InputPassword2.value) {
+            InputPassword.style.borderColor = "green";
+            InputPassword2.style.borderColor = "green";
+        }
+        else {
+            InputPassword.style.borderColor = "red";
+            InputPassword2.style.borderColor = "red";
+        }
+    }
+    async function go() {
+        var c = new FormData(form1);
+        //c.append("pas","123")
+        var d = await fetch(`@Url.Content("~/API/Index4")`, { method: "POST", body: c })
+        var e = await d.text()
+    }
+</script>
