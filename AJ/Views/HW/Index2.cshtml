@@ -8,9 +8,9 @@
         <form action="~/API/Index4" id="form1">
             <div class="mb-3">
                 <label for="InputName" class="form-label">姓名</label>
-                <input type="text" class="form-control" id="InputName" name="Name" onchange="txtch1()">  
+                <input type="text" class="form-control" id="InputName" name="Name" onchange="txtch1()">
                 <div id="div1"></div>
-            </div>         
+            </div>
             <div class="mb-3">
                 <label for="InputEmail" class="form-label">電子郵件</label>
                 <input type="email" class="form-control" id="InputEmail" name="Email">
@@ -18,11 +18,13 @@
             <div class="mb-3">
                 <label for="InputEmail" class="form-label">密碼</label>
                 <input type="email" class="form-control" id="InputPassword" name="Password" onchange="paw()">
-            </div>
+                <div id="div3"></div>
+            </div>     
             <div class="mb-3">
                 <label for="InputEmail" class="form-label">密碼確認</label>
                 <input type="email" class="form-control" id="InputPassword2" name="Password2" onchange="paw()">
-            </div>
+                <div id="div4"></div>
+           </div>         
             <div class="mb-3">
                 <label for="InputAge" class="form-label">年紀</label>
                 <input type="number" class="form-control" id="InputAge" name="Age">
@@ -31,40 +33,58 @@
                 <label for="formFile" class="form-label">Default file input example</label>
                 <input class="form-control" type="file" id="formFile" name="fil">
             </div>
-            <button type="button" class="btn btn-primary" id="bu1">送出</button>
+            <button type="button" class="btn btn-primary" id="bu1" onclick="go()">送出</button>
         </form>
     </div>
-    <div class="col-3" id="div1"></div>
-</div>
-<script>
-    async function txtch1() {
-        var a = await fetch(`@Url.Content("~/HW/Index2API")/${InputName.value}`)
-        var b = await a.text()
-        if (b == "o") {
-            div1.innerHTML = `<label id="lab1">OK</label>`;
-            InputName.style.borderColor = "green";
-            lab1.style.color = "green";
+    <script>
+        bu1.setAttribute("disabled", "");
+        var bool1 = false
+        var bool2 = false
+        function bool0() 
+        {
+            if (bool1 && bool2) bu1.removeAttribute("disabled");
+            else bu1.setAttribute("disabled", "");
         }
-        else {
-            div1.innerHTML = `<label id="lab1">NO</label>`;
-            InputName.style.borderColor = "red";
-            lab1.style.color = "red";
+        async function txtch1() {
+            var a = await fetch(`@Url.Content("~/HW/Index2API")/${InputName.value}`)
+            var b = await a.text()
+            if (b == "o") {
+                div1.innerHTML = `<label style="color:green;">OK</label>`;
+                InputName.style.borderColor = "green";
+                bool1 = true
+            }
+            else {
+                div1.innerHTML = `<label style="color:red;">已重複</label>`;
+                InputName.style.borderColor = "red";
+                bool1 = false
+            }
+            bool0()
         }
-    }
-     function paw() {      
-        if (InputPassword.value == InputPassword2.value) {
-            InputPassword.style.borderColor = "green";
-            InputPassword2.style.borderColor = "green";
+        function paw() {
+            if (InputPassword.value == InputPassword2.value) {
+                InputPassword.style.borderColor = "green";
+                InputPassword2.style.borderColor = "green";
+                div3.innerHTML = `<label style="color:green;">OK</label>`;
+                div4.innerHTML = `<label style="color:green;">OK</label>`;
+                bool2 = true
+            }
+            else {
+                InputPassword.style.borderColor = "red";
+                InputPassword2.style.borderColor = "red";
+                div3.innerHTML = `<label style="color:red;">密碼不一致</label>`;
+                div4.innerHTML = `<label style="color:red;">密碼不一致</label>`;
+                bool2 = false
+            }
+            bool0()
         }
-        else {
-            InputPassword.style.borderColor = "red";
-            InputPassword2.style.borderColor = "red";
+        async function go() {
+            await txtch1()
+            if (!bool1)return
+            var c = new FormData(form1);
+            //c.append("pas","123")
+            var d = await fetch(`@Url.Content("~/API/Index4")`, { method: "POST", body: c })
+            var e = await d.text()
+            window.alert(e)
+            await txtch1()
         }
-    }
-    async function go() {
-        var c = new FormData(form1);
-        //c.append("pas","123")
-        var d = await fetch(`@Url.Content("~/API/Index4")`, { method: "POST", body: c })
-        var e = await d.text()
-    }
-</script>
+    </script>
