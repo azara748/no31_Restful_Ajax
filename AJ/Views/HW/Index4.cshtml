@@ -66,18 +66,18 @@
 
         var s2 = "";
         for (var a = 1; a < b.totalPages + 1; a++) {
-            s2 += `<button type="button" class="btn btn-outline-secondary" onclick="ck1(${a})">${a}</button>`
+            s2 += `<button type="button" class="btn btn-outline-secondary" onclick="ck1(${a})" id="t${a}">${a}</button>`
         }
-        if (b.totalPages < 1) s2 += `<button type="button" class="btn btn-outline-secondary" onclick="ck1(1)">1</button>`
+        if (b.totalPages < 1) s2 += `<button type="button" class="btn btn-outline-secondary" onclick="ck1(1)" id="t1">1</button>`
         div2.innerHTML = s2;
-        //categories
+        document.getElementById("t" + Data.page).className = "btn btn-secondary";
         var s3 = ""
         for (var a in b.categories) {
-            s3 += `<button type="button" class="btn btn-outline-primary" onclick="ck2('${b.categories[a].categoryName}')" id="${b.categories[a].categoryName}">${b.categories[a].categoryName}</button>`
+            s3 += `<button type="button" class="btn btn-outline-secondary" onclick="ck2('${b.categories[a].categoryName}')" id="${b.categories[a].categoryName}">${b.categories[a].categoryName}</button>`
         }
         ui1.innerHTML = s3
         if (Data.categories != "") {
-            document.getElementById(Data.categories).className = "btn btn-primary";
+            document.getElementById(Data.categories).className = "btn btn-secondary";
         }
     }
     go()
