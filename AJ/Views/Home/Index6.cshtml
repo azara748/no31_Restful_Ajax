@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "Index6";
+}
+
+<h1>Index6</h1>
+<script>
+    async function go() {     
+        var a = await fetch(`https://localhost:7189/api/Categories`)
+        var b = await a.json()
+        
+        console.log(b)
+    }
+    go()
+</script>

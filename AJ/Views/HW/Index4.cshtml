@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Index4";
+}
+
+<div id="d1"></div>
+<script>
+    var Data = {
+        "categoryId": 0,
+        "keyword": "北投",
+        "page": 1,
+        "pageSize": 9,
+        "sortType": "asc",
+        "sortBy": ""
+    }
+    async function go() {
+        var a = await fetch(`@Url.Content("~/API/Index5")`, {
+            method: 'POST',
+            body: JSON.stringify(Data),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        var b = await a.json()
+        console.log(b.spotsResult[0].spotTitle)
+    }
+    go()
+    // var s = "";
+    // for (var a in b.spotsResult ) {
+    //     var img = "";
+    //     if (spots.CommonFormat.Section[a].file.img.length > 0)
+    //         img = spots.CommonFormat.Section[a].file.img[0].text
+    //     else
+    //         img = spots.CommonFormat.Section[a].file.img.text
+    //     s += `<div class="card" style="float:left;width:300px;height:600px;">
+    //                                                     <img src="${img}" class="card-img-top" alt = "..." style="height:225px;">
+    //                                         <div class="card-body" >
+    //                                                     <h5 class="card-title" >${spots.CommonFormat.Section[a].stitle}</h5>
+    //                                                         <p class="card-text" >${spots.CommonFormat.Section[a].xbody.substring(0, 100)}</p>
+    //                                                     </div>
+    //                                                     <div class="card-footer">
+    //                                                                 <small class="text-body-secondary">${spots.CommonFormat.Section[a].address}</small>
+    //                                                             </div>
+    //                                                             </div>
+    //                                                             </div>`
+    // }
+    // d1.innerHTML += s;
+</script>
+

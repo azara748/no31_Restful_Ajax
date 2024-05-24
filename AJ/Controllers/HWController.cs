@@ -19,10 +19,14 @@ namespace AJ.Controllers
         {
             return View();
         }
+        public IActionResult Index4()
+        {
+            return View();
+        }
         public IActionResult Index2API(string id)
         {
-            var a = _context.Members.FirstOrDefault(x=>x.Name==id);
-            if (a==null) return Content("o", "text/plain");
+            var a = _context.Members.Any(x=>x.Name==id);
+            if (!a) return Content("o", "text/plain");
             else return Content("x", "text/plain");
         }
     }
