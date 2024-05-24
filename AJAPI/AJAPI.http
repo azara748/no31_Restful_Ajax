@@ -1,0 +1,6 @@
+@AJAPI_HostAddress = http://localhost:5262
+
+GET {{AJAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

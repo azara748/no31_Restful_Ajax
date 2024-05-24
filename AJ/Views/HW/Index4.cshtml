@@ -1,19 +1,44 @@
 ﻿@{
     ViewData["Title"] = "Index4";
 }
-
-<div id="d1"></div>
+<select class="form-select" aria-label="Default select example" id="select1" onchange="cha1()" style="width:20%;float:left">
+    <option value="10">每頁10筆</option>
+    <option value="20">每頁20筆</option>
+    <option value="30">每頁30筆</option>
+</select>
+<div class="input-group" style="width:20%;float:right;">
+    <label>&nbsp&nbsp</label>
+    <input type="text" class="form-control" style="border-radius:5px" onkeydown="txt1()" id="tx1">
+    <button class="btn btn-outline-secondary" type="button" onclick="txt2()">搜尋</button>
+</div>
+<select class="form-select" aria-label="Default select example" id="select2" onchange="cha2()" style="width:20%;float:right;">
+    <option value="編號asc">編號升序</option>
+    <option value="編號">編號降序</option>
+    <option value="標題asc">標題升序</option>
+    <option value="標題">標題降序</option>
+</select>
+<br style="clear:both" />
+<br style="clear:both" />
+<div id="div2" style="text-align:center;clear:both">
+</div>
+<br />
+<div role="group" aria-label="Basic outlined example" id="ui1" style="text-align:center;">
+</div>
+<br />
+<div id="d1" style="margin-left:4%"></div>
 <script>
     var Data = {
         "categoryId": 0,
-        "keyword": "北投",
+        "keyword": "",
         "page": 1,
         "pageSize": 9,
         "sortType": "asc",
-        "sortBy": ""
+        "sortBy": "",
+        "categories": ""
     }
     async function go() {
-        var a = await fetch(`@Url.Content("~/API/Index5")`, {
+        var a = await fetch(`https://localhost:7189/api/A
+                    `, {
             method: 'POST',
             body: JSON.stringify(Data),
             headers: {
@@ -21,28 +46,67 @@
             },
         })
         var b = await a.json()
-        console.log(b.spotsResult[0].spotTitle)
+        var s = "";
+        console.log(b.spotsResult[0])
+        for (var a in b.spotsResult) {
+            var img = "";
+            img = b.spotsResult[a].spotImage
+            s += `<div class="card" style="float:left;width:300px;height:600px;">
+                             <img src="${img}" class="card-img-top" alt = "..." style="height:225px;">
+                                    <div class="card-body" >
+                                                              <h5 class="card-title" >${b.spotsResult[a].spotId}&nbsp&nbsp${b.spotsResult[a].spotTitle}</h5>
+                                               <p class="card-text" >${b.spotsResult[a].spotDescription.substring(0, 100)}</p>
+                                                    </div><div class="card-footer">
+                                                          <small class="text-body-secondary">${b.spotsResult[a].address}</small>
+                                                     </div>
+                                                  </div>
+                                               </div>`
+        }
+        d1.innerHTML = s;
+
+        var s2 = "";
+        for (var a = 1; a < b.totalPages + 1; a++) {
+            s2 += `<button type="button" class="btn btn-outline-secondary" onclick="ck1(${a})">${a}</button>`
+        }
+        if (b.totalPages < 1) s2 += `<button type="button" class="btn btn-outline-secondary" onclick="ck1(1)">1</button>`
+        div2.innerHTML = s2;
+        //categories
+        var s3 = ""
+        for (var a in b.categories) {
+            s3 += `<button type="button" class="btn btn-outline-primary" onclick="ck2('${b.categories[a].categoryName}')" id="${b.categories[a].categoryName}">${b.categories[a].categoryName}</button>`
+        }
+        ui1.innerHTML = s3
+        if (Data.categories != "") {
+            document.getElementById(Data.categories).className = "btn btn-primary";
+        }
     }
     go()
-    // var s = "";
-    // for (var a in b.spotsResult ) {
-    //     var img = "";
-    //     if (spots.CommonFormat.Section[a].file.img.length > 0)
-    //         img = spots.CommonFormat.Section[a].file.img[0].text
-    //     else
-    //         img = spots.CommonFormat.Section[a].file.img.text
-    //     s += `<div class="card" style="float:left;width:300px;height:600px;">
-    //                                                     <img src="${img}" class="card-img-top" alt = "..." style="height:225px;">
-    //                                         <div class="card-body" >
-    //                                                     <h5 class="card-title" >${spots.CommonFormat.Section[a].stitle}</h5>
-    //                                                         <p class="card-text" >${spots.CommonFormat.Section[a].xbody.substring(0, 100)}</p>
-    //                                                     </div>
-    //                                                     <div class="card-footer">
-    //                                                                 <small class="text-body-secondary">${spots.CommonFormat.Section[a].address}</small>
-    //                                                             </div>
-    //                                                             </div>
-    //                                                             </div>`
-    // }
-    // d1.innerHTML += s;
+    function ck1(p) {
+        Data.page = p
+        go()
+    }
+    function ck2(p2) {
+        Data.categories = p2
+        Data.page = 1
+        go()
+    }
+    function cha1() {
+        Data.pageSize = select1.value
+        go()
+    }
+    function cha2() {
+        if (select2.value.replace("asc", "") == "標題") Data.sortBy = "spotTitle"
+        else Data.sortBy =""
+        if (select2.value.indexOf("asc")!=-1) Data.sortType = "asc"
+        else Data.sortType = ""
+        go()
+    }
+    function txt1() { 
+        txt2()
+    }
+    function txt2() {
+        Data.keyword = tx1.value
+        go()
+    }
 </script>
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
+
 namespace AJ.Controllers
 {
     public class APIController : Controller
@@ -88,6 +89,16 @@ namespace AJ.Controllers
             var a = j.categoryId == 0 ? _context.SpotImagesSpots : _context.SpotImagesSpots.Where(x => x.CategoryId == j.categoryId);
             if (!string.IsNullOrEmpty(j.keyword))
                 a = a.Where(x => x.SpotTitle.Contains(j.keyword) || x.SpotDescription.Contains(j.keyword));
+
+            switch (j.sortBy)
+            {
+                case "spotTitle":
+                    a = j.sortType =="asc"? a.OrderBy(x => x.SpotTitle) : a.OrderByDescending(x => x.SpotTitle);
+                    break;
+                default:
+                    a = j.sortType == "asc" ? a.OrderBy(x => x.SpotId) :  a.OrderByDescending(x => x.SpotId);
+                    break;
+            }
             int 總數 = a.Count();
             int 每頁資料數 = j.pageSize??9;
             int 第幾頁 = j.page ?? 1;
